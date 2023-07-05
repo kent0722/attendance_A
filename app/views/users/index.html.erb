@@ -1,2 +1,16 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<%= provide(:title, "index") %>
+
+<h1 class="users-title">ユーザ一覧</h1>
+
+<div class="row">
+  <%= form_tag(users_path, method: :get, class: "form-inline text-left") do %>
+    <div class="input-group">
+      <span class="input-group-btn">
+        <%= submit_tag "ファイルの選択", class: "btn btn-default btn-search" %>
+      </span>
+      <%= text_field_tag :search, params[:search], class: "form-control" %>
+    </div>
+  <% end %>
+  
+
+</div>
