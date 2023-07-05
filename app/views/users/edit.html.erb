@@ -5,15 +5,15 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <%= form_with(model: @user, local: true) do |f| %>
-    
+      
       <%= f.label :name, class: "user-label-list" %>
       <%= f.text_field :name, class: "form-control" %>
 
       <%= f.label :email, class: "user-label-list" %>
       <%= f.email_field :email, class: "form-control" %>
       
-      <%= f.label :所属, class: "user-label-list" %>
-      <%= f.text_field :所属, class: "form-control" %>
+      <%= f.label :department, class: "user-label-list" %>
+      <%= f.text_field :department, class: "form-control" %>
       
       <%= f.label :社員番号, class: "user-label-list" %>
       <%= f.text_field :社員番号, class: "form-control" %>
@@ -21,11 +21,11 @@
       <%= f.label :カードid, class: "user-label-list" %>
       <%= f.text_field :カードid, class: "form-control" %>
       
-      <%= f.label :基本勤務時間, class: "user-label-list" %>
-      <%= f.text_field :基本勤務時間, class: "form-control" %>
+      <%= f.label :basic_time, class: "user-label-list" %>
+      <%= f.time_field  :basic_time, class: "form-control" %>
       
-      <%= f.label :指定勤務時間, class: "user-label-list" %>
-      <%= f.text_field :指定勤務時間, class: "form-control" %>
+      <%= f.label :work_time, class: "user-label-list" %>
+      <%= f.time_field :work_time, class: "form-control" %>
       
       <%= f.label :password, class: "user-label-list" %>
       <%= f.password_field :password, class: "form-control" %>
