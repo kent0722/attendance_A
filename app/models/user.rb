@@ -9,4 +9,19 @@ class User < ApplicationRecord
                     uniqueness: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }
+  
+  def self.import(file)
+    CSV.foreach(file.path, headers: true) do |row|
+      #nameが見つからなければ新しく作成
+      user = find_by(name: row["name"]) || new
+      # CSVからデータを取得し、設定する
+      user.attributes = row.to_hash.slice(*updatable_attributes)
+      user.save
+    end
+  end
+
+  # 更新を許可するカラムを定義
+  def self.updatable_attributes
+    ["id", "uid", "name", "password", "password_confirmation"]
+  end
 end
