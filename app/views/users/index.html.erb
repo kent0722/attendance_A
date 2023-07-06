@@ -2,7 +2,7 @@
 
 <h1 class="user-title">ユーザ一覧</h1>
 
-<div class="col-md-10 col-md-offset-1">
+<div class="col">
   <%= form_with url: import_users_path(format: :csv), local: true, multipart: true do |f| %>
     <%= f.file_field :file, accept: '.csv', class: "btn btn-default" %>
     <%= f.submit "CSVをインポート", class: "btn btn-md btn-primary btn-custum-csv" %>
