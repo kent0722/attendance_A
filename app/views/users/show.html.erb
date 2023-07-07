@@ -1,0 +1,99 @@
+<%= provide(:title, "show") %>
+
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr class="text-center">
+      <td colspan="3">
+        <%= link_to "⇦", "#", class: "btn btn-primary btn-sm" %>
+        時間管理表
+        <%= link_to "⇨", "#", class: "btn btn-primary btn-sm" %>
+      </td>
+      <td colspan="3">指定勤務開始時間<br>
+          指定勤務終了時間
+      </td>
+      <td colspan="4">基本時間</td>
+      <td>初日</td>
+    </tr>
+    
+    <tr class="text-center">
+      <td colspan="3">所属</td>
+      <td colspan="3">氏名</td>
+      <td>コード</td>
+      <td>１</td>
+      <td colspan="2">出勤日数</td>
+      <td colspan="2">締め</td>
+    </tr>
+  </thead>
+</table>
+
+<p>【 所属長承認申請のお知らせ 】</p>
+<p>【 勤怠変更申請のお知ら 】</p>
+<p>【 残業申請のお知らせ 】</p>
+
+<div>
+  <%= link_to "勤怠を編集", "#", class: "btn btn-primary" %>
+  <%= link_to "CVS出力", "#", class: "btn btn-primary" %>
+</div>
+  <%= link_to "勤怠修正ログ（承認済）", "#", class: "btn btn-primary" %>
+  
+
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr class="text-center">
+      <td rowspan="3">残業申請</td>
+      <td rowspan="3">日付</td>
+      <td rowspan="3">曜日</td>
+      <td colspan="8">【 実績 】</td>
+      <td colspan="6">所定外勤務</td>
+    </tr>
+    
+    <tr class="text-center">
+      <td colspan="3">出社</td>
+      <td colspan="3">退社</td>
+      <td rowspan="2">在社時間</td>
+      <td rowspan="2">備考</td>
+      <td colspan="2">終了予定時間</td>
+      <td rowspan="2">時間外時間</td>
+      <td rowspan="2">業務処理内容</td>
+      <td rowspan="2">支持者確認</td>
+    </tr>
+    
+     <tr class="text-center">
+      <td>時</td>
+      <td>分</td>
+      <td></td>
+      <td>時</td>
+      <td>分</td>
+      <td></td>
+      <td>時</td>
+      <td>分</td>
+    </tr>
+    
+  </thead>
+  
+  <tbody>
+    <% @users.each do |user| %>
+      <tr class="text-center">
+        <td>
+          <%= link_to "残業申請", "#", class: "btn btn-primary"%>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+  
+</table>
