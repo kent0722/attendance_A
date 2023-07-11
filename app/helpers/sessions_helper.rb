@@ -7,10 +7,11 @@ module SessionsHelper
 
   # 永続的セッションを記憶します（Userモデルを参照）
   def remember(user)
-    user.remember
+    user.remember # remember_tokenの生成と保存
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
+
 
   # 永続的セッションを破棄します
   def forget(user)
@@ -26,9 +27,10 @@ module SessionsHelper
     @current_user = nil
   end
 
+ 
   # 一時的セッションにいるユーザーを返します。
   # それ以外の場合はcookiesに対応するユーザーを返します。
-   def current_user
+  def current_user
     if (user_id = session[:user_id])
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])

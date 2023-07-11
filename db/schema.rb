@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(version: 20230709155243) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "department"
-    t.datetime "basic_time", default: "2023-07-05 23:00:00"
-    t.datetime "work_time", default: "2023-07-05 22:30:00"
+    t.datetime "basic_time", default: "2023-07-10 23:00:00"
+    t.datetime "work_time", default: "2023-07-10 22:30:00"
     t.boolean "admin", default: false
     t.datetime "designated_work_start_time"
     t.datetime "designated_work_end_time"

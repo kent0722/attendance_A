@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails',        '~> 5.1.6'
 gem 'roo'
+gem 'faker'
 gem 'bcrypt'
 gem 'bootstrap-sass'
 gem 'puma',         '~> 3.7'
