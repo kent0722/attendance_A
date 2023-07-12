@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
-      redirect_to @user
+      redirect_to user_url(@user)
     else
       render :edit      
     end
@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
     flash[:success] = "#{@user.name}のデータを削除しました。"
-    redirect_to users_url @user
+    redirect_to users_url
   end
   
   private

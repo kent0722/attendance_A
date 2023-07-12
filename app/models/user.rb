@@ -46,7 +46,7 @@ class User < ApplicationRecord
   end
   
   def self.import(file)
-    CSV.foreach(file.path, headers: true) do |row|
+    CSV.foreach(file.path, headers: true, encoding: 'Shift_JIS:UTF-8') do |row|
       #nameが見つからなければ新しく作成
       user = find_by(name: row["name"]) || new
       # CSVからデータを取得し、設定する
