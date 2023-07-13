@@ -9,8 +9,11 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   
   get 'base_points/index'
-  post 'import_users', to: 'users#import',  as: 'import_users', format: :csv
+  
+#   post 'import_users', to: 'users#import',  as: 'import_users', format: :csv
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :users
+   resources :users do
+    collection {post :import}
+   end
 end

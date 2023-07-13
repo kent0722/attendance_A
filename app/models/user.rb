@@ -47,6 +47,8 @@ class User < ApplicationRecord
   
   def self.import(file)
     CSV.foreach(file.path, headers: true, encoding: 'Shift_JIS:UTF-8') do |row|
+      next if row["email"].nil? # emailカラムがNULLの場合はスキップする
+
       #nameが見つからなければ新しく作成
       user = find_by(name: row["name"]) || new
       # CSVからデータを取得し、設定する
@@ -57,7 +59,7 @@ class User < ApplicationRecord
 
   # 更新を許可するカラムを定義
   def self.updatable_attributes
-    ["id", "uid", "name", "password", "password_confirmation"]
+    ["name", "email", "affiliation", "employee_number", "uid", "basic_time", "designated_work_start_time",
+    "designated_work_end_time", "superior", "admin", "password", "password_confirmation"]
   end
-
 end
