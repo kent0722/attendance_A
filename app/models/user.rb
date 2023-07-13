@@ -10,7 +10,13 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: true    
   has_secure_password
-  validates :password, presence: true, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  
+  validates :affiliation, length: { maximum: 20 }
+  
+  validates :employee_number, length: { minimum: 3 }
+  
+  validates :uid, length: { minimum: 3 }
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
