@@ -4,28 +4,30 @@
 
 <table class="table table-bordered table-striped table-condensed text-center base-table">
   <thead>
-      <td colspan="3"></td>
-      <td colspan="3"></td>
-      <td>拠点番号</td>
-      <td>拠点名</td>
-      <td>勤怠種類</td>
+    <td colspan="3"></td>
+    <td colspan="3"></td>
+    <td>拠点番号</td>
+    <td>拠点名</td>
+    <td>勤怠種類</td>
   </thead>
   
   <tbody>
-      <td colspan="3" class="text-left"><%= link_to "修正", "#", class: "btn btn-primary custom-btn" %></td>
-      <td colspan="3"><%= link_to "削除", "#", class: "btn btn-primary" %></td>
-      <td></td>
-      <td></td>
-      <td></td>
+    <td colspan="3" class="text-left">
+      <%= link_to "修正", "#", class: "btn btn-primary custom-btn" %>
+    </td>
+    <td colspan="3"><%= link_to "削除", "#", class: "btn btn-primary" %></td>
+    <td></td>
+    <td></td>
+    <td></td>
   </tbody>
   
   <thead>
-      <td colspan="10"></td>
+    <td colspan="10"></td>
   </thead>
 </table>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <%= link_to "拠点情報追加", "#", class: "btn btn-primary btn-lg custom-btn-2" %>
+    <%= link_to "拠点情報追加", new_base_point_path, class: "btn btn-primary btn-lg custom-btn-2" %>
   </div>
 </div>

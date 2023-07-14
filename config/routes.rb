@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   
-  resources :base_points, only: [:index, :create]
+  resources :base_points, only: [ :index, :new, :create]
+  
   
   resources :users do
       collection {post :import}
