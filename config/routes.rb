@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  resources :users
   root 'static_pages#top'
   get '/signup', to: 'users#new'
   
@@ -9,12 +8,9 @@ Rails.application.routes.draw do
   post   '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
   
-  get 'base_points/index'
+  resources :base_points, only: [:index, :create]
   
-#   post 'import_users', to: 'users#import',  as: 'import_users', format: :csv
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-   resources :users do
-    collection {post :import}
-   end
+  resources :users do
+      collection {post :import}
+  end
 end
