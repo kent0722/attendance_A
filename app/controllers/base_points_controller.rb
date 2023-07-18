@@ -19,6 +19,16 @@ class BasePointsController < ApplicationController
     end
   end
   
+  def destroy
+    @base_point = BasePoint.find(params[:id])
+    if @base_point.destroy
+      flash[:success] = "拠点が削除されました。"
+    else
+      flash[:danger] = "拠点の削除に失敗しました。"
+    end
+    redirect_to base_points_path
+  end
+  
   private
   
   def base_params
