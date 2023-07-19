@@ -9,13 +9,28 @@ class BasePointsController < ApplicationController
   end
   
   def create
-    @base = BasePoint.new(base_params)
-    if @base.save
+    @base_point = BasePoint.new(base_params)
+    if @base_point.save
       flash[:success] = "拠点が追加されました。"
       redirect_to base_points_path
     else
       flash[:danger] = "拠点の追加に失敗しました。"
       render :index
+    end
+  end
+  
+  def edit
+    @base_point = BasePoint.find(params[:id])
+  end
+  
+  def update
+    @base_point = BasePoint.find(params[:id])
+    if @base_point.update(base_params)
+      flash[:success] = "拠点が更新されました。"
+      redirect_to base_points_url(@base_point)
+    else
+      flash[:danger] = "拠点の更新に失敗しました。"
+      redirect_to edit_base_point_path  
     end
   end
   

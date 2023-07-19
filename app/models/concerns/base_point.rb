@@ -1,2 +1,0 @@
-class BasePoint < ApplicationRecord
-end
