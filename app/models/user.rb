@@ -14,9 +14,9 @@ class User < ApplicationRecord
   
   validates :affiliation, length: { maximum: 20 }
   
-  validates :employee_number, length: { minimum: 3 }
+  validates :employee_number, length: { minimum: 3 }, allow_blank: true
   
-  validates :uid, length: { minimum: 3 }
+  validates :uid, length: { minimum: 3 }, allow_blank: true
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
