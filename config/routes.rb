@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   resources :base_points
   
   resources :users do
-      collection {post :import}
+    collection {post :import}
+      
+    member do 
+      get 'attendance_list', to: 'users#attendance_list'
+    end
   end
 end

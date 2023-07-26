@@ -7,7 +7,7 @@
           <!-- ログインしている場合のリンク -->
           <li><%= link_to "トップへ", root_path, class: "nav-list" %></li>
           <li><%= link_to "ユーザ一覧", users_path, class: "nav-list" %></li>
-          <li><%= link_to "出勤社員一覧", "#", class: "nav-list" %></li>
+          <li><%= link_to "出勤社員一覧", attendance_list_user_path(current_user), class: "nav-list" %></li>
           <li><%= link_to "拠点情報の修正", base_points_path, class: "nav-list" %></li>
           <li><%= link_to "基本情報の修正", edit_user_path(current_user), class: "nav-list" %></li>
           <li class="dropdown">

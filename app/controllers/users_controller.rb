@@ -56,6 +56,15 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
+  
+  def attendance_list
+    # 本日の出社時間が保存されているユーザーを取得
+    @users_with_start_time = User.where.not(start_time: nil)
+  
+    # 表示用のデータを作成
+    @users_data = @users_with_start_time.pluck(:employee_number, :name)
+  end
+  
   private
   
   def user_params
