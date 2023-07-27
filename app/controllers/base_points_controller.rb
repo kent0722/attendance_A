@@ -1,4 +1,5 @@
 class BasePointsController < ApplicationController
+  before_action :set_base_point, only: [:edit, :update, :destroy]
   
   def index
     @base_points = BasePoint.all
@@ -20,11 +21,9 @@ class BasePointsController < ApplicationController
   end
   
   def edit
-    @base_point = BasePoint.find(params[:id])
   end
   
   def update
-    @base_point = BasePoint.find(params[:id])
     if @base_point.update(base_params)
       flash[:success] = "拠点が更新されました。"
       redirect_to base_points_url(@base_point)
@@ -35,7 +34,6 @@ class BasePointsController < ApplicationController
   end
   
   def destroy
-    @base_point = BasePoint.find(params[:id])
     if @base_point.destroy
       flash[:success] = "拠点が削除されました。"
     else
@@ -45,6 +43,10 @@ class BasePointsController < ApplicationController
   end
   
   private
+  
+  def set_base_point
+    @base_point = BasePoint.find(params[:id])
+  end
   
   def base_params
     params.require(:base_point).permit(:base_number, :base_name, :attendance_type)

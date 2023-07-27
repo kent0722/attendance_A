@@ -6,7 +6,8 @@
     <%= form_with(model: @base_point, url: base_point_path, method: :patch) do |f| %>
     
       <%= f.label :base_number %>
-      <%= f.text_field :base_number, class: "form-control" %>
+      <%= f.select :base_number, options_for_select(1..9), 
+      { include_blank: true }, class: "form-control" %>
     
       <%= f.label :base_name %>
       <%= f.text_field :base_name, class: "form-control" %>
