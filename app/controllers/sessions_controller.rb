@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     user = User.find_by(email: params[:session][:email].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
-      remember user # 永続的セッションの記憶
+      params[:session][:remember_me] == '1' ? remember(user) : forget(user)
       
       if user.admin?
         flash[:success] = "管理者としてログインしました。"
@@ -21,6 +21,7 @@ class SessionsController < ApplicationController
       render :new
     end
   end
+  
     
   def destroy
     # ログイン中の場合のみログアウト処理を実行します。
