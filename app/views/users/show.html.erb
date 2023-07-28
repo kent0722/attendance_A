@@ -5,23 +5,30 @@
     <tr class="text-center">
       <td colspan="3">
         <%= link_to "⇦", "#", class: "btn btn-primary btn-sm" %>
-        時間管理表
+        　<%= l(@first_day, format: :middle) %> 時間管理表　 
         <%= link_to "⇨", "#", class: "btn btn-primary btn-sm" %>
       </td>
-      <td colspan="3">指定勤務開始時間<br>
-          指定勤務終了時間
+      <td colspan="3">
+      指定勤務開始時間:
+      <%= format_basic_info(@user.designated_work_start_time) %><br>
+      指定勤務終了時間:
+      <%= format_basic_info(@user.designated_work_end_time) %>
       </td>
-      <td colspan="4">基本時間</td>
-      <td>初日</td>
+      <td colspan="4">
+        基本時間:<%= format_basic_info(@user.basic_time) %>
+      </td>
+      <td>初日　<%= l(@first_day, format: :short) %></td>
     </tr>
     
     <tr class="text-center">
-      <td colspan="3">所属</td>
-      <td colspan="3">氏名</td>
+      <td colspan="3">
+        所属:<%= @user.affiliation.present? ? @user.affiliation : "未所属" %>
+      </td>
+      <td colspan="3">氏名:<%= @user.name %></td>
       <td>コード</td>
       <td>１</td>
       <td colspan="2">出勤日数</td>
-      <td colspan="2">締め</td>
+      <td colspan="2">締め　<%= l(@last_day, format: :short) %></td>
     </tr>
   </thead>
 </table>
@@ -72,13 +79,13 @@
   </thead>
   
   <tbody>
-    <% @users.each do |user| %>
+    <%  (@first_day..@last_day).each do |day| %>
       <tr class="text-center">
         <td>
           <%= link_to "残業申請", "#", class: "btn btn-primary"%>
         </td>
-        <td></td>
-        <td></td>
+        <td><%= l(day, format: :short) %></td>
+        <td><%= $days_of_the_week[day.wday] %></td>
         <td></td>
         <td></td>
         <td></td>

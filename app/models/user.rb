@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+  has_many :attendances, dependent: :destroy
   # 「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
@@ -16,6 +16,8 @@ class User < ApplicationRecord
   validates :employee_number, length: { minimum: 3 }, allow_blank: true
   validates :uid, length: { minimum: 3 }, allow_blank: true
   
+  validates :designated_work_start_time, presence: true
+  validates :designated_work_end_time, presence: true
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
