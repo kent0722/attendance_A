@@ -4,9 +4,9 @@
   <thead>
     <tr class="text-center">
       <td colspan="3">
-        <%= link_to "⇦", "#", class: "btn btn-primary btn-sm" %>
+        <%= link_to "⇦", user_path(date: @first_day.prev_month), class: "btn btn-primary btn-sm" %>
         　<%= l(@first_day, format: :middle) %> 時間管理表　 
-        <%= link_to "⇨", "#", class: "btn btn-primary btn-sm" %>
+        <%= link_to "⇨", user_path(date: @first_day.next_month), class: "btn btn-primary btn-sm" %>
       </td>
       <td colspan="3">
       指定勤務開始時間:
@@ -79,13 +79,13 @@
   </thead>
   
   <tbody>
-    <%  (@first_day..@last_day).each do |day| %>
+     <% @attendances.each do |day| %>
       <tr class="text-center">
         <td>
           <%= link_to "残業申請", "#", class: "btn btn-primary"%>
         </td>
-        <td><%= l(day, format: :short) %></td>
-        <td><%= $days_of_the_week[day.wday] %></td>
+        <td><%= l(day.worked_on, format: :short) %></td>
+        <td><%= $days_of_the_week[day.worked_on.wday] %></td>
         <td></td>
         <td></td>
         <td></td>
