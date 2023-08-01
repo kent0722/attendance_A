@@ -9,22 +9,22 @@
         <%= link_to "⇨", user_path(date: @first_day.next_month), class: "btn btn-primary btn-sm" %>
       </td>
       <td colspan="3">
-      指定勤務開始時間:
+      指定勤務開始時間 : 
       <%= format_basic_info(@user.designated_work_start_time) %><br>
-      指定勤務終了時間:
+      指定勤務終了時間 : 
       <%= format_basic_info(@user.designated_work_end_time) %>
       </td>
       <td colspan="4">
-        基本時間:<%= format_basic_info(@user.basic_time) %>
+        基本時間 : <%= format_basic_info(@user.basic_time) %>
       </td>
       <td>初日　<%= l(@first_day, format: :short) %></td>
     </tr>
     
     <tr class="text-center">
       <td colspan="3">
-        所属:<%= @user.affiliation.present? ? @user.affiliation : "未所属" %>
+        所属 : <%= @user.affiliation.present? ? @user.affiliation : "未所属" %>
       </td>
-      <td colspan="3">氏名:<%= @user.name %></td>
+      <td colspan="3">氏名 : <%= @user.name %></td>
       <td>コード</td>
       <td>１</td>
       <td colspan="2">出勤日数</td>
@@ -86,12 +86,21 @@
         </td>
         <td><%= l(day.worked_on, format: :short) %></td>
         <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><%= l(day.started_at, format: :time_hour) if day.started_at.present? %></td>
+        <td><%= l(day.started_at, format: :time_minites) if day.started_at.present? %></td>
+        <td>
+          <% if (Date.current == day.worked_on) && day.started_at.nil? %>
+            <%= link_to "出社", user_attendance_path(@user, day), method: :patch, 
+              class: "btn btn-primary" %>
+          <% end %>
+        </td>
+        <td><%= l(day.finished_at, format: :time_hour) if day.finished_at.present? %></td>
+        <td><%= l(day.finished_at, format: :time_minites) if day.finished_at.present? %></td>
+        <td>
+          <% if (Date.current == day.worked_on) && day.started_at.present? && day.finished_at.nil? %>
+            <%= link_to "退社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary" %>
+          <% end %>
+        </td>
         <td></td>
         <td></td>
         <td></td>
@@ -102,5 +111,25 @@
       </tr>
     <% end %>
   </tbody>
+  
+  <tfoot>
+       <tr class="text-center">
+        <td></td>
+        <td colspan="2"></td>
+        <td colspan="6"></td>
+        <td></td>
+        <td colspan="5"></td>
+        <td> 
+          <p>所属長承認　未 </p> 
+          <div>
+            <%= form_with(model: @attendance, url: "#", local: true) do |f| %>
+              <%= f.select :attendance_type, options_for_select(["上長A", "上長B"]), 
+                { include_blank: true }, class: "form-control" %>
+              <%= f.submit "申請", class: "btn btn-primary btn-block btn-custum-tfoot" %>
+            <% end %>   
+          </div>
+        </td>
+      </tr>
+  </tfoot>
   
 </table>

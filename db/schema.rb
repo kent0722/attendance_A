@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230728053640) do
+ActiveRecord::Schema.define(version: 20230801092926) do
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -29,24 +29,34 @@ ActiveRecord::Schema.define(version: 20230728053640) do
     t.string "attendance_type"
   end
 
+  create_table "superiors", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
-    t.datetime "basic_time", default: "2023-07-27 23:00:00"
-    t.datetime "work_time", default: "2023-07-27 23:00:00"
+    t.datetime "basic_time", default: "2023-07-31 23:00:00"
+    t.datetime "work_time", default: "2023-07-31 23:00:00"
     t.boolean "admin", default: false
-    t.datetime "designated_work_start_time", default: "2023-07-28 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-07-28 09:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-01 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-01 09:00:00"
     t.string "affiliation"
     t.string "employee_number"
     t.string "uid"
     t.boolean "superior"
     t.string "remember_digest"
     t.datetime "start_time"
+    t.integer "superior_id"
+    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["superior_id"], name: "index_users_on_superior_id"
   end
 
 end

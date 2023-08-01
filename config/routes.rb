@@ -16,5 +16,6 @@ Rails.application.routes.draw do
     member do 
       get 'attendance_list', to: 'users#attendance_list'
     end
+    resources :attendances, only: :update
   end
 end
