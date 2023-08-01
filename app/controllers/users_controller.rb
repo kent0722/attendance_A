@@ -69,35 +69,8 @@ class UsersController < ApplicationController
   
   private
   
-  def set_user
-    @user = User.find(params[:id])
-  end
-  
-  def set_users
-    @users = User.all
-  end
-  
   def user_params
     params.require(:user).permit(:name, :email, :affiliation, :password, :password_confirmation,
     :employee_number, :uid, :designated_work_start_time, :designated_work_end_time)
-  end
-  
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "ログインしてください。"
-      redirect_to login_url
-    end
-  end
-  
-# アクセスしたユーザーが現在ログインしているユーザーか確認します。
-  def correct_user
-    @user = User.find(params[:id])
-    redirect_to(root_url) unless @user == current_user
-  end
-  
-# システム管理権限所有かどうか判定します。
-  def admin_user
-    redirect_to root_url unless current_user.admin?
   end
 end

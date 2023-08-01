@@ -15,6 +15,8 @@ Rails.application.routes.draw do
       
     member do 
       get 'attendance_list', to: 'users#attendance_list'
+      get 'attendances/edit_one_month'
+      patch 'attendances/update_one_month'
     end
     resources :attendances, only: :update
   end
