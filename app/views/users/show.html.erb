@@ -27,7 +27,7 @@
       <td colspan="3">氏名 : <%= @user.name %></td>
       <td>コード</td>
       <td>１</td>
-      <td colspan="2">出勤日数</td>
+      <td colspan="2">出勤日数 : <%= @worked_sum %>日</td>
       <td colspan="2">締め　<%= l(@last_day, format: :short) %></td>
     </tr>
   </thead>
@@ -101,7 +101,11 @@
             <%= link_to "退社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary" %>
           <% end %>
         </td>
-        <td></td>
+        <td>
+          <% if day.started_at.present? && day.finished_at.present? %>
+            <%= working_times(day.started_at, day.finished_at) %>
+          <% end %>
+        </td>
         <td></td>
         <td></td>
         <td></td>
@@ -117,7 +121,7 @@
         <td></td>
         <td colspan="2"></td>
         <td colspan="6"></td>
-        <td></td>
+        <td><%= format("%.2f", @total_working_times.to_f) %></td>
         <td colspan="5"></td>
         <td> 
           <p>所属長承認　未 </p> 
