@@ -35,12 +35,11 @@ class ApplicationController < ActionController::Base
     redirect_to root_url unless current_user.admin?
   end
   
-  def set_one_month 
-    @first_day = params[:date].nil? ?
-    Date.current.beginning_of_month : params[:date].to_date
+  def set_one_month
+    @first_day = params[:date].nil? ? Date.current.beginning_of_month : params[:date].to_date
     @last_day = @first_day.end_of_month
-    one_month = [*@first_day..@last_day]
   
+    one_month = [*@first_day..@last_day]
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
   
     unless one_month.count == @attendances.count
@@ -49,6 +48,9 @@ class ApplicationController < ActionController::Base
       end
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     end
+  
+    # モーダルウィンドウで表示する日付のデータを取得
+    @modal_date = params[:modal_date].to_date if params[:modal_date].present?
   
   rescue ActiveRecord::RecordInvalid
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"

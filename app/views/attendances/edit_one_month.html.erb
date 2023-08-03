@@ -1,48 +1,71 @@
 <% provide(:title, @user.name) %>
-<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day), local: true, method: :patch) do |f| %>
-  <div>
+
+<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day),
+local: true, method: :patch) do |f| %>
+  <div class="col-md-10 col-md-offset-1">
     <h1 class="user-title">勤怠編集画面</h1>
     <table class="table table-bordered table-condensed table-striped" id="table-attendances">
       <thead>
         <tr class="text-center">
           <td>日付</td>
           <td>曜日</td>
-          <td>出社</td>
-          <td>退社</td>
+          <td colspan="3">出社</td>
+          <td colspan="3">退社</td>
+          <td>翌日</td>
           <td>在社時間</td>
-          <td>備考</td>
+          <td colspan="6">備考</td>
+          <td colspan="6">指示者確認㊞</td>
         </tr>
       </thead>
       <tbody>
         <% @attendances.each do |day| %>
           <%= f.fields_for "attendances[]", day do |attendance| %>
-            <tr>
+            <tr class="text-center">
               <td><%= l(day.worked_on, format: :short) %></td>
               <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-              
-              <% if !current_user.admin? && (Date.current < day.worked_on) %>
-                <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
-                <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
-              <% else %>
-                <td><%= attendance.time_field :started_at, class: "form-control" %></td>
-                <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
-              <% end %>
-              
-              <td>
-                <% if day.started_at.present? && day.finished_at.present? %>
-                  <%= working_times(day.started_at, day.finished_at) %>
-                <% end %>
+              <td colspan="3">
+                <div>
+                  <%= select_tag "attendances[][started_at(4i)]",
+                                 options_for_select((1..23).map { |h| ["#{format('%02d', h)}", h] },
+                                 selected: day.started_at ? day.started_at.strftime('%H') : nil),
+                                 include_blank: true, class: "form-control modal-form" %>
+                  ：
+                  <%= select_tag "attendances[][started_at(5i)]",
+                                 options_for_select((0..59).map { |m| ["#{format('%02d', m)}", m] },
+                                 selected: day.started_at ? day.started_at.strftime('%M') : nil),
+                                 include_blank: true, class: "form-control modal-form" %>
+                </div>
               </td>
-              <td><%= attendance.text_field :note, class: "form-control" %></td>
+              <td colspan="3">
+                <div>
+                  <%= select_tag "attendances[][finished_at(4i)]",
+                                 options_for_select((1..23).map { |h| ["#{format('%02d', h)}", h] },
+                                 selected: day.finished_at ? day.finished_at.strftime('%H') : nil),
+                                 include_blank: true, class: "form-control modal-form" %>
+                  ：
+                  <%= select_tag "attendances[][finished_at(5i)]",
+                                 options_for_select((0..59).map { |m| ["#{format('%02d', m)}", m] },
+                                 selected: day.finished_at ? day.finished_at.strftime('%M') : nil),
+                                 include_blank: true, class: "form-control modal-form" %>
+                </div>
+              </td>
+              <td>
+                <%= attendance.check_box :approved, checked: attendance.object.approved %>
+              </td>
+              <td></td>
+              <td colspan="6"><%= attendance.text_field :note, class: "form-control" %></td>
+              <td colspan="6">
+                <%= f.select :attendance_type, options_for_select(["上長A", "上長B"]), 
+                  { include_blank: true }, class: "form-control" %>
+              </td>
             </tr>
           <% end %>
         <% end %>
       </tbody>
-    </table>
-  </div>
-
-  <div class="text-center">
-    <%= f.submit "まとめて更新", class: "btn btn-lg btn-primary" %>
-    <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-lg btn-default" %>
+    </table> 
+    <div class="text-center">
+      <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-lg btn-primary" %>
+      <%= f.submit "まとめて更新", class: "btn btn-lg btn-primary" %>
+    </div>
   </div>
 <% end %>

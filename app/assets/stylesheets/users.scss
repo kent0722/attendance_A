@@ -37,6 +37,10 @@
   margin-top: 10px;
 }
 
+.custom-red-text {
+  color: red;
+}
+
 // 社員一覧ページ
 
 .employee-number {
@@ -44,4 +48,36 @@
 }
 .attrendane_list-table {
   margin-top: 30px;
+}
+
+/* 基本情報編集モーダルウインドウ */
+
+.label-basic-info {
+  margin-top: 5px;
+}
+
+.btn-basic-info {
+  margin: 15px 0;
+  width: 30%;
+}
+
+.modal-title {
+  font-size: 24px;
+  margin-top: 48px;
+  text-align: center;
+}
+
+.close-button {
+  font-size: 32px;
+  margin-top: 10px;
+  margin-right: 18px;
+}
+
+.modal-form {
+  display: inline;
+  width: 72px;
+}
+
+.modal-btn {
+  margin-bottom: 16px;
 }

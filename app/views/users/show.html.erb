@@ -34,8 +34,13 @@
 </table>
 
 <p>【 所属長承認申請のお知らせ 】</p>
-<p>【 勤怠変更申請のお知ら 】</p>
-<p>【 残業申請のお知らせ 】</p>
+<p>【 勤怠変更申請のお知らせ】</p>
+
+<% if @pending_overtime_requests.present? %>
+  <p class="custom-red-text">
+    【 残業申請のお知らせ 】<%= @pending_overtime_requests.size %>件の通知があります
+  </p>
+<% end %>
 
 <div>
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
@@ -82,7 +87,7 @@
      <% @attendances.each do |day| %>
       <tr class="text-center">
         <td>
-          <%= link_to "残業申請", "#", class: "btn btn-primary"%>
+          <%= link_to "残業申請", edit_overtime_requests_user_path(day), remote: true, class: "btn btn-primary"%>
         </td>
         <td><%= l(day.worked_on, format: :short) %></td>
         <td><%= $days_of_the_week[day.worked_on.wday] %></td>
@@ -135,5 +140,7 @@
         </td>
       </tr>
   </tfoot>
-  
 </table>
+
+<!--モーダルウインドウ表示-->
+<div id="edit_overtime_requests" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

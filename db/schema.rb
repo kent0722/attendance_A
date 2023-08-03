@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230801092926) do
+ActiveRecord::Schema.define(version: 20230803091207) do
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20230801092926) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.time "next_day_start_time"
+    t.boolean "approved"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -27,6 +29,13 @@ ActiveRecord::Schema.define(version: 20230801092926) do
     t.string "base_number"
     t.string "base_name"
     t.string "attendance_type"
+  end
+
+  create_table "overtime_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.integer "superior_id"
   end
 
   create_table "superiors", force: :cascade do |t|
@@ -42,11 +51,11 @@ ActiveRecord::Schema.define(version: 20230801092926) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
-    t.datetime "basic_time", default: "2023-07-31 23:00:00"
-    t.datetime "work_time", default: "2023-07-31 23:00:00"
+    t.datetime "basic_time", default: "2023-08-01 23:00:00"
+    t.datetime "work_time", default: "2023-08-01 23:00:00"
     t.boolean "admin", default: false
-    t.datetime "designated_work_start_time", default: "2023-08-01 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-01 09:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-02 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-02 09:00:00"
     t.string "affiliation"
     t.string "employee_number"
     t.string "uid"

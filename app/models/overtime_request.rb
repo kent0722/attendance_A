@@ -1,0 +1,2 @@
+class OvertimeRequest < ApplicationRecord
+end

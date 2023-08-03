@@ -1,10 +1,12 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy,
+                                  :edit_overtime_requests, :update_overtime_requests]
   before_action :set_users, only: [:index, :show]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, 
+                                        :edit_overtime_requests, :update_overtime_requests]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :edit, :attendance_list]
-  before_action :set_one_month, only: :show
+  before_action :set_one_month, only: [:show, :edit_overtime_requests]
   
   
   def index
@@ -23,6 +25,9 @@ class UsersController < ApplicationController
 
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
+    
+     # 承認待ちの申請情報を取得する
+    @pending_overtime_requests = OvertimeRequest.where(status: "申請中", superior_id: current_user.id)
   end
 
   def new
@@ -67,10 +72,31 @@ class UsersController < ApplicationController
     @users_data = @users_with_start_time.pluck(:employee_number, :name)
   end
   
+  def edit_overtime_requests
+  end
+
+ def update_overtime_requests
+  @user.attendances.each do |attendance|
+    attendance_params = params[:user][:attendances][attendance.id.to_s]
+    if attendance_params.present?
+      # attendance_paramsを使ってattendanceの情報を更新する
+      attendance.update(attendance_params.permit(:approved, :note, :next_day_start_time))
+    end
+  end
+  flash[:success] = "残業申請情報を更新しました。"
+  redirect_to @user
+ end
+
+
+  
   private
   
   def user_params
-    params.require(:user).permit(:name, :email, :affiliation, :password, :password_confirmation,
-    :employee_number, :uid, :designated_work_start_time, :designated_work_end_time)
+    params.require(:user).permit(:name, :email, :affiliation, :password, 
+                                 :password_confirmation, :employee_number, 
+                                 :uid, :designated_work_start_time, 
+                                 :designated_work_end_time,
+                                 attendances: [:next_day_start_time, 
+                                 :approved, :note, :attendance_type])
   end
 end
