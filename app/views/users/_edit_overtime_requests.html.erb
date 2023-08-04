@@ -1,7 +1,7 @@
 <%= provide(:title, 'basic-info') %>
 
 <%= form_with(model: @user, url: update_overtime_requests_user_path(date: @first_day),
-　　local: true, method: :patch) do |f| %>
+　　local: true, method: :patch, remote: true) do |f| %>
     <div class="modal-dialog modal-lg modal-dialog-center">
       <div class="modal-content">
         <button type="button" class="close close-button" data-dismiss="modal" aria-label="Close">
@@ -24,20 +24,12 @@
               </thead>
               <tbody>
                 <% @attendances.each do |day| %>
-                  <%= f.fields_for "attendances[]", day do |attendance| %> <!-- ブロック内でattendanceを定義する -->
+                  <%= f.fields_for "attendances[]", day do |attendance| %> 
                     <tr class="text-center">
                       <td><%= l(day.worked_on, format: :short) %></td>
                       <td><%= $days_of_the_week[day.worked_on.wday] %></td>
                       <td>
-                        <div>
-                          <%= select_tag "attendances[][next_day_start_time(4i)]", 
-                                       options_for_select((1..23).map { |h| ["#{format('%02d', h)}", h] }),
-                                       include_blank: true, class: "form-control modal-form" %>
-                          ：
-                          <%= select_tag "attendances[][next_day_start_time(5i)]",
-                                         options_for_select((0..59).map { |m| ["#{format('%02d', m)}", m] }),
-                                         include_blank: true, class: "form-control modal-form" %>
-                        </div>
+                        <%= attendance.time_field :ended_at, class: "form-control" %>
                       </td>
                       <td colspan="6">
                         <%= attendance.check_box :approved, checked: attendance.object.approved %>

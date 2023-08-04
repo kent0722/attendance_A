@@ -24,30 +24,10 @@ local: true, method: :patch) do |f| %>
               <td><%= l(day.worked_on, format: :short) %></td>
               <td><%= $days_of_the_week[day.worked_on.wday] %></td>
               <td colspan="3">
-                <div>
-                  <%= select_tag "attendances[][started_at(4i)]",
-                                 options_for_select((1..23).map { |h| ["#{format('%02d', h)}", h] },
-                                 selected: day.started_at ? day.started_at.strftime('%H') : nil),
-                                 include_blank: true, class: "form-control modal-form" %>
-                  ：
-                  <%= select_tag "attendances[][started_at(5i)]",
-                                 options_for_select((0..59).map { |m| ["#{format('%02d', m)}", m] },
-                                 selected: day.started_at ? day.started_at.strftime('%M') : nil),
-                                 include_blank: true, class: "form-control modal-form" %>
-                </div>
+                  <%= attendance.time_field :started_at, class: "form-control" %>
               </td>
               <td colspan="3">
-                <div>
-                  <%= select_tag "attendances[][finished_at(4i)]",
-                                 options_for_select((1..23).map { |h| ["#{format('%02d', h)}", h] },
-                                 selected: day.finished_at ? day.finished_at.strftime('%H') : nil),
-                                 include_blank: true, class: "form-control modal-form" %>
-                  ：
-                  <%= select_tag "attendances[][finished_at(5i)]",
-                                 options_for_select((0..59).map { |m| ["#{format('%02d', m)}", m] },
-                                 selected: day.finished_at ? day.finished_at.strftime('%M') : nil),
-                                 include_blank: true, class: "form-control modal-form" %>
-                </div>
+                  <%= attendance.time_field :finished_at, class: "form-control" %>
               </td>
               <td>
                 <%= attendance.check_box :approved, checked: attendance.object.approved %>

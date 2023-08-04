@@ -75,19 +75,8 @@ class UsersController < ApplicationController
   def edit_overtime_requests
   end
 
- def update_overtime_requests
-  @user.attendances.each do |attendance|
-    attendance_params = params[:user][:attendances][attendance.id.to_s]
-    if attendance_params.present?
-      # attendance_paramsを使ってattendanceの情報を更新する
-      attendance.update(attendance_params.permit(:approved, :note, :next_day_start_time))
-    end
+  def update_overtime_requests
   end
-  flash[:success] = "残業申請情報を更新しました。"
-  redirect_to @user
- end
-
-
   
   private
   

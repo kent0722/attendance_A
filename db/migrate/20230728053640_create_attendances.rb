@@ -4,8 +4,10 @@ class CreateAttendances < ActiveRecord::Migration[5.1]
       t.date :worked_on
       t.datetime :started_at
       t.datetime :finished_at
+      t.datetime :ended_at
       t.string :note
       t.references :user, foreign_key: true
+      t.boolean :approved, default: false
 
       t.timestamps
     end

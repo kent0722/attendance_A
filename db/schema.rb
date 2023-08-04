@@ -16,12 +16,13 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.date "worked_on"
     t.datetime "started_at"
     t.datetime "finished_at"
+    t.datetime "ended_at"
     t.string "note"
     t.integer "user_id"
+    t.boolean "approved", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "next_day_start_time"
-    t.boolean "approved"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -29,6 +30,8 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.string "base_number"
     t.string "base_name"
     t.string "attendance_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "overtime_requests", force: :cascade do |t|
@@ -48,22 +51,22 @@ ActiveRecord::Schema.define(version: 20230803091207) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "password_digest"
-    t.datetime "basic_time", default: "2023-08-01 23:00:00"
-    t.datetime "work_time", default: "2023-08-01 23:00:00"
-    t.boolean "admin", default: false
-    t.datetime "designated_work_start_time", default: "2023-08-02 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-02 09:00:00"
     t.string "affiliation"
     t.string "employee_number"
     t.string "uid"
-    t.boolean "superior"
+    t.string "role"
+    t.boolean "admin", default: false
+    t.boolean "superior", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+    t.datetime "basic_time", default: "2023-08-03 23:00:00"
+    t.datetime "work_time", default: "2023-08-03 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-04 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-04 09:00:00"
     t.string "remember_digest"
     t.datetime "start_time"
     t.integer "superior_id"
-    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["superior_id"], name: "index_users_on_superior_id"
   end

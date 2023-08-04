@@ -112,8 +112,8 @@
           <% end %>
         </td>
         <td><%= day.note %></td>
-        <td></td>
-        <td></td>
+        <td><%= l(day.ended_at, format: :time_hour) if day.ended_at.present? %></td>
+        <td><%= l(day.ended_at, format: :time_minutes) if day.ended_at.present? %></td>
         <td></td>
         <td></td>
         <td></td>
