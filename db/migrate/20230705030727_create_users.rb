@@ -9,6 +9,11 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.string :role
       t.boolean :admin, default: false
       t.boolean :superior, default: false
+      t.datetime :basic_time, default: Time.current.change(hour: 8, min: 0, sec: 0)
+      t.datetime :work_time, default: Time.current.change(hour: 8, min: 0, sec: 0)
+      t.datetime :designated_work_start_time, default: Time.current.change(hour: 9, min: 0, sec: 0)
+      t.datetime :designated_work_end_time, default: Time.current.change(hour: 18, min: 0, sec: 0)
+
 
       t.timestamps
     end

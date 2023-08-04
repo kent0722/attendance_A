@@ -57,13 +57,13 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.string "role"
     t.boolean "admin", default: false
     t.boolean "superior", default: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "password_digest"
     t.datetime "basic_time", default: "2023-08-03 23:00:00"
     t.datetime "work_time", default: "2023-08-03 23:00:00"
     t.datetime "designated_work_start_time", default: "2023-08-04 00:00:00"
     t.datetime "designated_work_end_time", default: "2023-08-04 09:00:00"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
     t.string "remember_digest"
     t.datetime "start_time"
     t.integer "superior_id"

@@ -23,12 +23,21 @@ local: true, method: :patch) do |f| %>
             <tr class="text-center">
               <td><%= l(day.worked_on, format: :short) %></td>
               <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-              <td colspan="3">
-                  <%= attendance.time_field :started_at, class: "form-control" %>
-              </td>
-              <td colspan="3">
-                  <%= attendance.time_field :finished_at, class: "form-control" %>
-              </td>
+              <% if !current_user.admin? && (Date.current < day.worked_on) %>
+                <td colspan="3">
+                    <%= attendance.time_field :started_at, readonly: true, class: "form-control" %>
+                </td>
+                <td colspan="3">
+                    <%= attendance.time_field :finished_at, readonly: true, class: "form-control" %>
+                </td>
+              <% else %> 
+                <td colspan="3">
+                    <%= attendance.time_field :started_at, class: "form-control" %>
+                </td>
+                <td colspan="3">
+                    <%= attendance.time_field :finished_at, class: "form-control" %>
+                </td>
+              <% end %>
               <td>
                 <%= attendance.check_box :approved, checked: attendance.object.approved %>
               </td>
