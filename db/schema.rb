@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.datetime "finished_at"
     t.datetime "ended_at"
     t.string "note"
+    t.string "approval_status"
     t.integer "user_id"
     t.boolean "approved", default: false
     t.datetime "created_at", null: false
@@ -57,15 +58,15 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.string "role"
     t.boolean "admin", default: false
     t.boolean "superior", default: false
-    t.datetime "basic_time", default: "2023-08-03 23:00:00"
-    t.datetime "work_time", default: "2023-08-03 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-08-04 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-04 09:00:00"
+    t.datetime "start_time"
+    t.datetime "basic_time", default: "2023-08-07 23:00:00"
+    t.datetime "work_time", default: "2023-08-07 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-08 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-08 09:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
-    t.datetime "start_time"
     t.integer "superior_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["superior_id"], name: "index_users_on_superior_id"

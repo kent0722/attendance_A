@@ -63,11 +63,9 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
   
-  
   def attendance_list
     # 本日の出社時間が保存されているユーザーを取得
     @users_with_start_time = User.where.not(start_time: nil)
-  
     # 表示用のデータを作成
     @users_data = @users_with_start_time.pluck(:employee_number, :name)
   end
@@ -77,15 +75,17 @@ class UsersController < ApplicationController
 
   def update_overtime_requests
   end
-  
+    
   private
   
   def user_params
     params.require(:user).permit(:name, :email, :affiliation, :password, 
                                  :password_confirmation, :employee_number, 
                                  :uid, :designated_work_start_time, 
-                                 :designated_work_end_time,
-                                 attendances: [:next_day_start_time, 
-                                 :approved, :note, :attendance_type])
+                                 :designated_work_end_time)
+  end
+  
+  def overtime_requests_params
+    params.require(:user).permit(:ended_at, :approved, :note, :approval_status)
   end
 end
