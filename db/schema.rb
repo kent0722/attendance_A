@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230803091207) do
+ActiveRecord::Schema.define(version: 20230818154713) do
+
+  create_table "approval_requests", force: :cascade do |t|
+    t.integer "user_id"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.string "status"
+    t.string "approver"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "target_month"
+    t.index ["user_id"], name: "index_approval_requests_on_user_id"
+  end
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -59,10 +71,10 @@ ActiveRecord::Schema.define(version: 20230803091207) do
     t.boolean "admin", default: false
     t.boolean "superior", default: false
     t.datetime "start_time"
-    t.datetime "basic_time", default: "2023-08-07 23:00:00"
-    t.datetime "work_time", default: "2023-08-07 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-08-08 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-08 09:00:00"
+    t.datetime "basic_time", default: "2023-08-23 23:00:00"
+    t.datetime "work_time", default: "2023-08-23 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-24 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-24 09:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"

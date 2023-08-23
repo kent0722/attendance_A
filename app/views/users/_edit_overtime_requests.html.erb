@@ -22,26 +22,22 @@
                 <td colspan="6">指示者確認㊞</td>
               </tr>
             </thead>
-            <tbody>
-              <% @attendances.each do |day| %>
-                <%= f.fields_for "attendances[]", day do |attendance| %> 
-                  <tr class="text-center">
-                    <td><%= l(day.worked_on, format: :short) %></td>
-                    <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-                    <td>
-                      <%= attendance.time_field :ended_at, class: "form-control" %>
-                    </td>
-                    <td colspan="6">
-                      <%= attendance.check_box :approved, checked: attendance.object.approved %>
-                    </td>
-                    <td colspan="6"><%= attendance.text_field :note, class: "form-control" %></td>
-                    <td colspan="6">
-                      <%= attendance.select :approval_status, options_for_select(["申請中", "承認", "否認"]), { include_blank: true }, class: "form-control" %>
-                    </td>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
+             <tbody>
+            <tr class="text-center">
+              <td><%= l(@first_day, format: :short) %></td>
+              <td><%= $days_of_the_week[@first_day.wday] %></td>
+              <td>
+                <%= f.time_field :ended_at, class: "form-control" %>
+              </td>
+              <td colspan="6">
+                <%= f.check_box :approved, class: "form-control" %>
+              </td>
+              <td colspan="6"><%= f.text_field :note, class: "form-control" %></td>
+              <td colspan="6">
+                <%= f.select :approval_status, options_for_select(["申請中", "承認", "否認"]), { include_blank: true }, class: "form-control" %>
+              </td>
+            </tr>
+          </tbody>
           </table> 
             <%= f.submit "変更を送信する", class: "btn btn-primary btn-block modal-btn" %>
         </div>

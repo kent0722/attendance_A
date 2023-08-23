@@ -33,7 +33,14 @@
   </thead>
 </table>
 
-<p>【 所属長承認申請のお知らせ 】</p>
+<% if current_user.is_approver? && @pending_approval_requests.present? %>
+  <p class="custom-red-text">
+    <a href="#" data-toggle="modal" data-target="#approvalRequestsModal">
+      【 所属長承認申請のお知らせ 】<%= @pending_approval_requests_count %>件の通知があります
+    </a>
+  </p>
+<% end %>
+
 <p>【 勤怠変更申請のお知らせ】</p>
 
 <% if @pending_overtime_requests.present? %>
@@ -132,11 +139,13 @@
         <td> 
           <p>所属長承認　未 </p> 
           <div>
-            <%= form_with(model: @attendance, url: "#", local: true) do |f| %>
-              <%= f.select :attendance_type, options_for_select(["上長A", "上長B"]), 
-                { include_blank: true }, class: "form-control" %>
+            <%= form_with(url: user_approval_requests_path(@user), local: true, method: :post) do |f| %>
+              <%= f.fields_for :approval_request do |approval_request_form| %>
+                <%= approval_request_form.hidden_field :user_id, value: @user.id %>
+                <%= approval_request_form.select :approver, options_for_select(["上長A", "上長B"]), { include_blank: true }, class: "form-control" %>
+              <% end %>
               <%= f.submit "申請", class: "btn btn-primary btn-block btn-custum-tfoot" %>
-            <% end %>   
+            <% end %>
           </div>
         </td>
       </tr>

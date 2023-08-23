@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   root 'static_pages#top'
   get '/signup', to: 'users#new'
   
@@ -11,18 +10,28 @@ Rails.application.routes.draw do
   resources :base_points
   
   resources :users do
-    collection {post :import}
+    collection { post :import }
       
     member do 
       # 出勤中社員一覧
       get 'attendance_list'
+      
       # 勤怠編集画面
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
+      
       # 勤怠申請モーダルウインドウ
       get 'edit_overtime_requests'
       patch 'update_overtime_requests'
     end
+    
     resources :attendances, only: :update
+
+    # ユーザーに関連する承認申請ルート
+    resources :approval_requests, only: [:new, :create, :show] do
+      member do
+        post 'approve'
+      end
+    end
   end
 end

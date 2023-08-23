@@ -9,12 +9,12 @@ local: true, method: :patch) do |f| %>
         <tr class="text-center">
           <td>日付</td>
           <td>曜日</td>
-          <td colspan="3">出社</td>
-          <td colspan="3">退社</td>
+          <td>出社</td>
+          <td>退社</td>
           <td>翌日</td>
           <td>在社時間</td>
-          <td colspan="6">備考</td>
-          <td colspan="6">指示者確認㊞</td>
+          <td>備考</td>
+          <td>指示者確認㊞</td>
         </tr>
       </thead>
       <tbody>
@@ -23,29 +23,23 @@ local: true, method: :patch) do |f| %>
             <tr class="text-center">
               <td><%= l(day.worked_on, format: :short) %></td>
               <td><%= $days_of_the_week[day.worked_on.wday] %></td>
-              <% if !current_user.admin? && (Date.current < day.worked_on) %>
-                <td colspan="3">
-                    <%= attendance.time_field :started_at, readonly: true, class: "form-control" %>
-                </td>
-                <td colspan="3">
-                    <%= attendance.time_field :finished_at, readonly: true, class: "form-control" %>
-                </td>
+              <% if Date.current < day.worked_on %>
+                <td><%= attendance.time_select :started_at, { include_blank: true }, readonly: true, id: 'time-select', class: "form-control", value: nil %></td>
+                <td><%= attendance.time_select :finished_at, { include_blank: true }, readonly: true, id: 'time-select', class: "form-control", value: nil %></td>
               <% else %> 
-                <td colspan="3">
-                    <%= attendance.time_field :started_at, class: "form-control" %>
-                </td>
-                <td colspan="3">
-                    <%= attendance.time_field :finished_at, class: "form-control" %>
-                </td>
+                <td><%= attendance.time_select :started_at, { include_blank: true }, id: 'time-select', class: "form-control" %></td>
+                <td><%= attendance.time_select :finished_at, { include_blank: true }, id: 'time-select', class: "form-control" %></td>
               <% end %>
+              <td><%= attendance.check_box :approved, checked: attendance.object.approved %></td>
               <td>
-                <%= attendance.check_box :approved, checked: attendance.object.approved %>
+                <% if day.started_at.present? && day.finished_at.present? %>
+                  <% total_working_hours = (day.finished_at - day.started_at).to_f / 3600 %>
+                  <%= format("%.2f", total_working_hours) %>
+                <% end %>
               </td>
-              <td></td>
-              <td colspan="6"><%= attendance.text_field :note, class: "form-control" %></td>
-              <td colspan="6">
-                <%= f.select :attendance_type, options_for_select(["上長A", "上長B"]), 
-                  { include_blank: true }, class: "form-control" %>
+              <td><%= attendance.text_field :note, class: "form-control" %></td>
+              <td>
+                <%= f.select :attendance_type, options_for_select(["上長A", "上長B"]), { include_blank: true }, class: "form-control" %>
               </td>
             </tr>
           <% end %>

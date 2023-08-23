@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :superior, class_name: 'Superior', foreign_key: 'user_id'
   has_many :attendances, dependent: :destroy
+  has_many :approval_requests
   # 「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
   before_save { self.email = email.downcase }
@@ -69,5 +70,9 @@ class User < ApplicationRecord
   def self.updatable_attributes
     ["name", "email", "affiliation", "employee_number", "uid", "basic_time", "designated_work_start_time",
     "designated_work_end_time", "superior", "admin", "password", "password_confirmation"]
+  end
+  
+  def is_approver?
+    role == "superior"
   end
 end

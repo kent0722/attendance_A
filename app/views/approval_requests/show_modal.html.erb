@@ -1,0 +1,22 @@
+<div id="approvalRequestsModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">所属長承認申請</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- ここに申請情報の内容を表示 -->
+        <% @pending_approval_requests.each do |request| %>
+          <p><%= request.user.name %> さんからの申請</p>
+          <!-- その他申請情報の表示 -->
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
