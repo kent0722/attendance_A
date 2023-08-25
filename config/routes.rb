@@ -13,16 +13,11 @@ Rails.application.routes.draw do
     collection { post :import }
       
     member do 
-      # 出勤中社員一覧
       get 'attendance_list'
-      
-      # 勤怠編集画面
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
-      
-      # 勤怠申請モーダルウインドウ
-      get 'edit_overtime_requests'
-      patch 'update_overtime_requests'
+      get 'attendances/edit_overtime_requests'
+      patch 'attendances/update_overtime_requests'
     end
     
     resources :attendances, only: :update

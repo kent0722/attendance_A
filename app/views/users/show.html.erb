@@ -94,7 +94,7 @@
      <% @attendances.each do |day| %>
       <tr class="text-center">
         <td>
-          <%= link_to "残業申請", edit_overtime_requests_user_path(@user), remote: true, class: "btn btn-primary"%>
+          <%= link_to "残業申請", attendances_edit_overtime_requests_user_path(date: day.worked_on), remote: true, class: "btn btn-primary"%>
         </td>
         <td><%= l(day.worked_on, format: :short) %></td>
         <td><%= $days_of_the_week[day.worked_on.wday] %></td>
@@ -153,4 +153,4 @@
 </table>
 
 <!--モーダルウインドウ表示-->
-<div id="edit_overtime_requests" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit-overtime-requests" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>

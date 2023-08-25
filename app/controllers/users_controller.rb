@@ -1,12 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy,
-                                  :edit_overtime_requests, :update_overtime_requests]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_users, only: [:index, :show]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, 
-                                        :edit_overtime_requests, :update_overtime_requests]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :edit, :attendance_list]
-  before_action :set_one_month, only: [:show, :edit_overtime_requests]
+  before_action :set_one_month, only: [:show]
   
   
   def index
@@ -73,13 +71,6 @@ class UsersController < ApplicationController
     # 表示用のデータを作成
     @users_data = @users_with_start_time.pluck(:employee_number, :name)
   end
-  
-  def edit_overtime_requests
-  end
-
-  def update_overtime_requests
-  end
-
     
   private
   
@@ -88,9 +79,5 @@ class UsersController < ApplicationController
                                  :password_confirmation, :employee_number, 
                                  :uid, :designated_work_start_time, 
                                  :designated_work_end_time)
-  end
-  
-  def overtime_requests_params
-    params.require(:user).permit(:ended_at, :approved, :note, :approval_status)
   end
 end
