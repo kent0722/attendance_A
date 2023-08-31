@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20230818154713) do
     t.datetime "finished_at"
     t.datetime "ended_at"
     t.string "note"
+    t.string "task_description"
     t.string "approval_status"
     t.integer "user_id"
     t.boolean "approved", default: false
@@ -71,10 +72,10 @@ ActiveRecord::Schema.define(version: 20230818154713) do
     t.boolean "admin", default: false
     t.boolean "superior", default: false
     t.datetime "start_time"
-    t.datetime "basic_time", default: "2023-08-23 23:00:00"
-    t.datetime "work_time", default: "2023-08-23 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-08-24 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-24 09:00:00"
+    t.datetime "basic_time", default: "2023-08-24 23:00:00"
+    t.datetime "work_time", default: "2023-08-24 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-08-25 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-08-25 09:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"

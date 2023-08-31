@@ -23,12 +23,6 @@ class UsersController < ApplicationController
 
   def show
     @worked_sum = @attendances.where.not(started_at: nil).count
-  
-    if current_user.is_approver? # 上長ユーザーの場合
-      @pending_approval_requests = ApprovalRequest.where(status: "申請中", approver: current_user.name)
-      @pending_overtime_requests = OvertimeRequest.where(status: "申請中", superior_id: current_user.id)
-      @pending_approval_requests_count = @pending_approval_requests.count
-    end
   end
 
 

@@ -6,6 +6,7 @@ class CreateAttendances < ActiveRecord::Migration[5.1]
       t.datetime :finished_at
       t.datetime :ended_at
       t.string :note
+      t.string :task_description
       t.string :approval_status
       t.references :user, foreign_key: true
       t.boolean :approved, default: false

@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_one :superior, class_name: 'Superior', foreign_key: 'user_id'
   has_many :attendances, dependent: :destroy
-  has_many :approval_requests
+
   # 「remember_token」という仮想の属性を作成します。
   attr_accessor :remember_token
   before_save { self.email = email.downcase }

@@ -33,21 +33,9 @@
   </thead>
 </table>
 
-<% if current_user.is_approver? && @pending_approval_requests.present? %>
-  <p class="custom-red-text">
-    <a href="#" data-toggle="modal" data-target="#approvalRequestsModal">
-      【 所属長承認申請のお知らせ 】<%= @pending_approval_requests_count %>件の通知があります
-    </a>
-  </p>
-<% end %>
-
+<p>【 所属長承認申請のお知らせ 】</p>
 <p>【 勤怠変更申請のお知らせ】</p>
-
-<% if @pending_overtime_requests.present? %>
-  <p class="custom-red-text">
-    【 残業申請のお知らせ 】<%= @pending_overtime_requests.size %>件の通知があります
-  </p>
-<% end %>
+<p>【 残業申請のお知らせ 】</p>
 
 <div>
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
@@ -94,7 +82,7 @@
      <% @attendances.each do |day| %>
       <tr class="text-center">
         <td>
-          <%= link_to "残業申請", attendances_edit_overtime_requests_user_path(date: day.worked_on), remote: true, class: "btn btn-primary"%>
+          <%= link_to "残業申請", attendances_edit_overtime_req_user_path(date: day.worked_on), remote: true, class: "btn btn-primary"%>
         </td>
         <td><%= l(day.worked_on, format: :short) %></td>
         <td><%= $days_of_the_week[day.worked_on.wday] %></td>
@@ -121,9 +109,9 @@
         </td>
         <td><%= day.note %></td>
         <td><%= l(day.ended_at, format: :time_hour) if day.ended_at.present? %></td>
-        <td><%= l(day.ended_at, format: :time_minutes) if day.ended_at.present? %></td>
+        <td><%= l(day.ended_at, format: :time_minites) if day.ended_at.present? %></td>
         <td></td>
-        <td></td>
+        <td><%= day.task_description %></td>
         <td></td>
       </tr>
     <% end %>
@@ -139,7 +127,7 @@
         <td> 
           <p>所属長承認　未 </p> 
           <div>
-            <%= form_with(url: user_approval_requests_path(@user), local: true, method: :post) do |f| %>
+            <%= form_with(url: "#", local: true, method: :post) do |f| %>
               <%= f.fields_for :approval_request do |approval_request_form| %>
                 <%= approval_request_form.hidden_field :user_id, value: @user.id %>
                 <%= approval_request_form.select :approver, options_for_select(["上長A", "上長B"]), { include_blank: true }, class: "form-control" %>
@@ -153,4 +141,4 @@
 </table>
 
 <!--モーダルウインドウ表示-->
-<div id="edit-overtime-requests" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="edit-overtime-req" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
