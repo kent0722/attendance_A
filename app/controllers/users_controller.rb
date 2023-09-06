@@ -22,8 +22,10 @@ class UsersController < ApplicationController
   end
 
   def show
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     @worked_sum = @attendances.where.not(started_at: nil).count
   end
+
 
 
   def new

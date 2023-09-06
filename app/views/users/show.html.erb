@@ -118,25 +118,19 @@
   </tbody>
   
   <tfoot>
-       <tr class="text-center">
-        <td></td>
-        <td colspan="2"></td>
-        <td colspan="6"></td>
-        <td><%= format("%.2f", @total_working_times.to_f) %></td>
-        <td colspan="5"></td>
-        <td> 
-          <p>所属長承認　未 </p> 
-          <div>
-            <%= form_with(url: "#", local: true, method: :post) do |f| %>
-              <%= f.fields_for :approval_request do |approval_request_form| %>
-                <%= approval_request_form.hidden_field :user_id, value: @user.id %>
-                <%= approval_request_form.select :approver, options_for_select(["上長A", "上長B"]), { include_blank: true }, class: "form-control" %>
-              <% end %>
-              <%= f.submit "申請", class: "btn btn-primary btn-block btn-custum-tfoot" %>
-            <% end %>
-          </div>
-        </td>
-      </tr>
+    <tr class="text-center">
+      <td></td>
+      <td colspan="2"></td>
+      <td colspan="6"></td>
+      <td><%= format("%.2f", @total_working_times.to_f) %></td>
+      <td colspan="5"></td> 
+      <td> 
+      <p>所属長承認　未 </p> 
+      <div>
+        
+      </div>
+      </td>
+    </tr>
   </tfoot>
 </table>
 

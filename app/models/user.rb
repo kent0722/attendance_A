@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  has_one :superior, class_name: 'Superior', foreign_key: 'user_id'
   has_many :attendances, dependent: :destroy
 
   # 「remember_token」という仮想の属性を作成します。
