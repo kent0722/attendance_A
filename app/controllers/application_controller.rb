@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
     @users = User.all
   end
   
+  def superior_users
+    @superior = User.where.not(role: ['上長A', '上長B'])
+  end
+    
   def logged_in_user
     unless logged_in?
       store_location

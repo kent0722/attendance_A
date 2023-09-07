@@ -32,7 +32,7 @@
                     <td colspan="6"><%= attendance.check_box :approved %></td>
                     <td colspan="6"><%= attendance.text_field :task_description, class: "form-control" %></td>
                     <td colspan="6">
-                      <%= attendance.select :approval_status, options_for_select(["申請中", "承認", "否認"]), { include_blank: true }, class: "form-control" %>
+                      <%= attendance.collection_select(:approval_status, @superior, :name, :name, { include_blank: true }, { class: 'form-control' }) %>
                     </td>
                   </tr>
                 <% end %>

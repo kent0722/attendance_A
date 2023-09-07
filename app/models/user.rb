@@ -19,6 +19,7 @@ class User < ApplicationRecord
   
   validates :designated_work_start_time, presence: true
   validates :designated_work_end_time, presence: true
+  validates :approval_status, presence: true
 
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)

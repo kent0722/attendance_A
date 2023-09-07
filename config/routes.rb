@@ -17,11 +17,6 @@ Rails.application.routes.draw do
       patch 'attendances/update_overtime_req'
     end
     resources :attendances, only: :update
-    resources :superiors , only: :update do
-      member do
-      patch  'monthly_att_req'
-     end
-    end
   end
    resources :base_points
 end
