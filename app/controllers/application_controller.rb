@@ -15,6 +15,14 @@ class ApplicationController < ActionController::Base
   def superior_users
     @superior = User.where.not(role: ['上長A', '上長B'])
   end
+
+  def is_superior?
+    if current_user
+      current_user.superior == true
+    else
+      false
+    end
+  end
     
   def logged_in_user
     unless logged_in?
@@ -60,3 +68,4 @@ class ApplicationController < ActionController::Base
     redirect_to root_url
   end
 end
+

@@ -2,27 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# Note that this schema.rb definition is the authoritative source for your
-# database schema. If you need to create the application database on another
-# system, you should be using db:schema:load, not running all the migrations
-# from scratch. The latter is a flawed and unsustainable approach (the more migrations
-# you'll amass, the slower it'll run and the greater likelihood for issues).
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
+# be faster and is potentially less error prone than running all of your
+# migrations from scratch. Old migrations may fail to apply correctly if those
+# migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20230818154713) do
-
-  create_table "approval_requests", force: :cascade do |t|
-    t.integer "user_id"
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.string "status"
-    t.string "approver"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.date "target_month"
-    t.index ["user_id"], name: "index_approval_requests_on_user_id"
-  end
+ActiveRecord::Schema.define(version: 2023_10_04_073359) do
 
   create_table "attendances", force: :cascade do |t|
     t.date "worked_on"
@@ -36,7 +24,9 @@ ActiveRecord::Schema.define(version: 20230818154713) do
     t.boolean "approved", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.time "next_day_start_time"
+    t.string "overtime_approval_status"
+    t.string "overtime_instructor"
+    t.date "overtime_req"
     t.index ["user_id"], name: "index_attendances_on_user_id"
   end
 
@@ -44,20 +34,6 @@ ActiveRecord::Schema.define(version: 20230818154713) do
     t.string "base_number"
     t.string "base_name"
     t.string "attendance_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "overtime_requests", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status"
-    t.integer "superior_id"
-  end
-
-  create_table "superiors", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -72,17 +48,17 @@ ActiveRecord::Schema.define(version: 20230818154713) do
     t.boolean "admin", default: false
     t.boolean "superior", default: false
     t.datetime "start_time"
-    t.datetime "basic_time", default: "2023-08-24 23:00:00"
-    t.datetime "work_time", default: "2023-08-24 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-08-25 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-08-25 09:00:00"
+    t.datetime "basic_time", default: "2023-09-28 23:00:00"
+    t.datetime "work_time", default: "2023-09-28 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-09-29 00:00:00"
+    t.datetime "designated_work_end_time", default: "2023-09-29 09:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
-    t.integer "superior_id"
+    t.date "overtime_req"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["superior_id"], name: "index_users_on_superior_id"
   end
 
+  add_foreign_key "attendances", "users"
 end

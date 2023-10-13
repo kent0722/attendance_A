@@ -23,8 +23,10 @@ class UsersController < ApplicationController
   end
 
   def show
+    @current_user = current_user
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     @worked_sum = @attendances.where.not(started_at: nil).count
+    @overtime_instructor = @attendances.first.overtime_instructor if @attendances.first
   end
 
 

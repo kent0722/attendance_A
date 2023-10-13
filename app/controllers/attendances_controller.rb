@@ -1,8 +1,8 @@
 class AttendancesController < ApplicationController
-  before_action :set_user, only: [:edit_overtime_req, :update_overtime_req, :edit_one_month, :update_one_month]
-  before_action :logged_in_user, only: [:update, :edit_overtime_req, :update_overtime_req, :edit_one_month, :update_one_month]
-  before_action :superior_users, only: [:edit_one_month, :edit_overtime_req]
-  before_action :admin_or_correct_user, only: [:update, :edit_overtime_req, :update_overtime_req, :edit_one_month, :update_one_month]
+  before_action :set_user, only: [:edit_one_month, :update_one_month, :edit_overtime_req, :update_overtime_req, :overtime_req_confirm, :overtime_req_process]
+  before_action :logged_in_user, only: [:update, :edit_one_month, :update_one_month, :edit_overtime_req, :update_overtime_req, :overtime_req_confirm, :overtime_req_process]
+  before_action :superior_users, only: [:edit_one_month, :edit_overtime_req, :overtime_req_confirm]
+  before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month, :edit_overtime_req, :update_overtime_req, :overtime_req_confirm, :overtime_req_process]
   before_action :set_one_month, only: :edit_one_month
   
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
@@ -12,13 +12,13 @@ class AttendancesController < ApplicationController
     @attendance = Attendance.find(params[:id])
     # 出勤時間が未登録であることを判定します。
     if @attendance.started_at.nil?
-      if @attendance.update_attributes(started_at: Time.current.change(sec: 0))
+      if @attendance.update(started_at: Time.current.change(sec: 0))
         flash[:info] = "おはようございます！"
       else
         flash[:danger] = UPDATE_ERROR_MSG
       end
     elsif @attendance.finished_at.nil?
-      if @attendance.update_attributes(finished_at: Time.current.change(sec: 0))
+      if @attendance.update(finished_at: Time.current.change(sec: 0))
         flash[:info] = "お疲れ様でした。"
       else
         flash[:danger] = UPDATE_ERROR_MSG
@@ -35,7 +35,7 @@ class AttendancesController < ApplicationController
       attendances_params.each do |id, item|
         unless item["started_at(4i)"].blank? || item["started_at(5i)"].blank? || item["finished_at(4i)"].blank? || item["finished_at(5i)"].blank?
           attendance = Attendance.find(id)
-          attendance.update_attributes!(item)
+          attendance.update!(item)
         end
       end
     end
@@ -51,21 +51,32 @@ class AttendancesController < ApplicationController
   end
 
   def update_overtime_req
+    success = true # 成功フラグを初期化
     overtime_req_params.each do |id, item|
       attendance = Attendance.find(id)
-      if item["ended_at(4i)"].blank?  && item["ended_at(5i)"].blank?  || item["approved"].blank?  || item["note"].blank?  || item["approval_status"].blank? 
-        attendance.update_attributes!(item)
+      if item["ended_at(4i)"].blank? || item["ended_at(5i)"].blank? || item["approval_status"].blank?
+        success = false # 失敗した場合にフラグを設定
+      else
+        overtime_instructor = item["overtime_instructor"]
+        attendance.update(item.merge(overtime_instructor: overtime_instructor))
       end
     end
   
-    flash[:success] = "残業申請情報を更新しました。"
-    redirect_to user_url
-  rescue ActiveRecord::RecordInvalid
-    flash[:danger] = "無効な入力データがあったため、更新をキャンセルしました。"
-    redirect_to user_url
+    if success
+      flash[:success] = "残業申請情報を送信しました。"
+      redirect_to user_url(date: params[:date])
+    else
+      flash[:danger] = "無効な入力データがあったため、送信をキャンセルしました。"
+      redirect_to user_url
+    end
   end
 
+  def overtime_req_confirm
+    @attendance = Attendance.find(params[:id])
+  end
 
+  def overtime_req_process
+  end
     
   private
   

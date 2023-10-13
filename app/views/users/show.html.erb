@@ -34,8 +34,13 @@
 </table>
 
 <p>【 所属長承認申請のお知らせ 】</p>
-<p>【 勤怠変更申請のお知らせ】</p>
-<p>【 残業申請のお知らせ 】</p>
+<p>【 勤怠変更申請のお知らせ 】</p>
+
+<% if current_user.superior? %>
+  <div>
+  <%= link_to "【 残業申請のお知らせ 】", attendances_overtime_req_confirm_user_path(date: params[:date]), remote: true %>
+  </div>
+<% end %>
 
 <div>
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary" %>
@@ -90,8 +95,7 @@
         <td><%= l(day.started_at, format: :time_minites) if day.started_at.present? %></td>
         <td>
           <% if (Date.current == day.worked_on) && day.started_at.nil? %>
-            <%= link_to "出社", user_attendance_path(@user, day), method: :patch, 
-              class: "btn btn-primary" %>
+            <%= link_to "出社", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary" %>
           <% end %>
         </td>
         <td><%= l(day.finished_at, format: :time_hour) if day.finished_at.present? %></td>
@@ -112,7 +116,17 @@
         <td><%= l(day.ended_at, format: :time_minites) if day.ended_at.present? %></td>
         <td></td>
         <td><%= day.task_description %></td>
-        <td></td>
+        <td>
+          <% if day.approval_status.in?(["上長A", "上長B"]) %>
+            <%= "#{day.approval_status}へ残業申請中" %>
+          <% elsif day.approval_status == "承認" %>
+            <%= "#{day.approval_status}から残業申請: 承認済" %>
+          <% elsif day.approval_status == "否認" %>
+            <%= "#{day.approval_status}から残業申請: 否認" %>
+          <% else %>
+            <!-- 表示内容なし -->
+          <% end %>
+        </td>
       </tr> 
     <% end %>
   </tbody>
@@ -136,3 +150,4 @@
 
 <!--モーダルウインドウ表示-->
 <div id="edit-overtime-req" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+<div id="overtime-req-confirm" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
