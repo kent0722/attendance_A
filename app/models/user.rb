@@ -65,6 +65,10 @@ class User < ApplicationRecord
     end
   end
 
+  def count_pending_overtime_requests
+    self.attendances.where(approval_status: "申請中").count
+  end
+
   # 更新を許可するカラムを定義
   def self.updatable_attributes
     ["name", "email", "affiliation", "employee_number", "uid", "basic_time", "designated_work_start_time",

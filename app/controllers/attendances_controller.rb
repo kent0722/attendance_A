@@ -64,7 +64,7 @@ class AttendancesController < ApplicationController
   
     if success
       flash[:success] = "残業申請情報を送信しました。"
-      redirect_to user_url(date: params[:date])
+      redirect_to user_url
     else
       flash[:danger] = "無効な入力データがあったため、送信をキャンセルしました。"
       redirect_to user_url
@@ -72,7 +72,7 @@ class AttendancesController < ApplicationController
   end
 
   def overtime_req_confirm
-    @attendance = Attendance.find(params[:id])
+    @attendances = Attendance.where(approval_status: ["上長A", "上長B"])
   end
 
   def overtime_req_process

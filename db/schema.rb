@@ -48,15 +48,14 @@ ActiveRecord::Schema.define(version: 2023_10_04_073359) do
     t.boolean "admin", default: false
     t.boolean "superior", default: false
     t.datetime "start_time"
-    t.datetime "basic_time", default: "2023-09-28 23:00:00"
-    t.datetime "work_time", default: "2023-09-28 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-09-29 00:00:00"
-    t.datetime "designated_work_end_time", default: "2023-09-29 09:00:00"
+    t.datetime "basic_time", default: "2023-11-04 23:00:00"
+    t.datetime "work_time", default: "2023-11-04 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-11-05 01:00:00"
+    t.datetime "designated_work_end_time", default: "2023-11-05 10:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "remember_digest"
-    t.date "overtime_req"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

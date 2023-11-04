@@ -12,8 +12,8 @@ class CreateUsers < ActiveRecord::Migration[5.1]
       t.datetime :start_time
       t.datetime :basic_time, default: Time.current.change(hour: 8, min: 0, sec: 0)
       t.datetime :work_time, default: Time.current.change(hour: 8, min: 0, sec: 0)
-      t.datetime :designated_work_start_time, default: Time.current.change(hour: 9, min: 0, sec: 0)
-      t.datetime :designated_work_end_time, default: Time.current.change(hour: 18, min: 0, sec: 0)
+      t.datetime :designated_work_start_time, default: Time.current.change(hour: 10, min: 0, sec: 0)
+      t.datetime :designated_work_end_time, default: Time.current.change(hour: 19, min: 0, sec: 0)
 
 
       t.timestamps

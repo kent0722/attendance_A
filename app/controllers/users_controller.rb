@@ -27,9 +27,8 @@ class UsersController < ApplicationController
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
     @worked_sum = @attendances.where.not(started_at: nil).count
     @overtime_instructor = @attendances.first.overtime_instructor if @attendances.first
+    @count = Attendance.where(approval_status: ["上長A", "上長B"]).count
   end
-
-
 
   def new
     @user = User.new

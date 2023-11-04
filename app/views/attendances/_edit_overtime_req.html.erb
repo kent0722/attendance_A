@@ -7,6 +7,8 @@
         <span aria-hidden="true">×</span>
       </button>
     </div>
+
+    <%# 一般ユーザーでの残業申請フォーム %>
     <h1 class="modal-title">【残業申請】</h1>
     <div class="modal-body">
       <%= form_with(model: @user, url: attendances_update_overtime_req_user_path(date: params[:date]), local: true, method: :patch) do |f| %>

@@ -41,6 +41,20 @@
   color: red;
 }
 
+a.sp-link, a.sp-link:hover {
+  color: red;
+}
+
+.notification-badge {
+  color: red;
+  font-weight: bold; 
+  border: 3px solid red; /* 赤色のボーダー */ 
+  border-radius: 0px; /* ボックスを角丸にする（オプション） */
+  display: inline-block; /* インライン要素として表示 */
+  margin-top: -3px;
+  margin-bottom: 3px;
+}
+
 // 社員一覧ページ
 
 .employee-number {
