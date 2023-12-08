@@ -1,7 +1,6 @@
 <% provide(:title, @user.name) %>
 
-<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day),
-local: true, method: :patch) do |f| %>
+<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day), local: true, method: :patch) do |f| %>
   <div class="col-md-10 col-md-offset-1">
     <h1 class="user-title">勤怠編集画面</h1>
     <table class="table table-bordered table-condensed table-striped" id="table-attendances">
@@ -30,7 +29,7 @@ local: true, method: :patch) do |f| %>
                 <td><%= attendance.time_select :started_at, { include_blank: true }, id: 'time-select', class: "form-control" %></td>
                 <td><%= attendance.time_select :finished_at, { include_blank: true }, id: 'time-select', class: "form-control" %></td>
               <% end %>
-              <td><%= attendance.check_box :approved, checked: attendance.object.approved %></td>
+               <td><%= attendance.check_box :chg_next_day %></td>
               <td>
                 <% if day.started_at.present? && day.finished_at.present? %>
                   <% total_working_hours = (day.finished_at - day.started_at).to_f / 3600 %>
@@ -40,9 +39,9 @@ local: true, method: :patch) do |f| %>
               <td><%= attendance.text_field :note, class: "form-control" %></td>
               <td>
               <% if Date.current < day.worked_on %>
-                <%= attendance.select :approval_status, options_for_select(["上長A", "上長B"]), { include_blank: true }, disabled: true, class: "form-control" %>
+                <%= attendance.collection_select(:chg_confirmed, @superior, :name, :name, { include_blank: true }, disabled: true, class: 'form-control') %>
               <% else %> 
-                <%= attendance.select :approval_status, options_for_select(["上長A", "上長B"]), { include_blank: true }, class: "form-control" %>
+                <%= attendance.collection_select(:chg_confirmed, @superior, :name, :name, { include_blank: true }, { class: 'form-control' }) %>
               <% end %>
               </td>
             </tr>

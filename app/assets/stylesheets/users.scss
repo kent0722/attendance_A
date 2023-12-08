@@ -64,3 +64,11 @@ a.sp-link, a.sp-link:hover {
   margin-top: 30px;
 }
 
+/* ユーザー勤怠情報テーブル */
+
+#table-attendances {
+  td {
+    vertical-align: bottom;
+    text-align: center;
+  }
+}

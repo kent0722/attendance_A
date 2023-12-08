@@ -74,8 +74,20 @@ class User < ApplicationRecord
     ["name", "email", "affiliation", "employee_number", "uid", "basic_time", "designated_work_start_time",
     "designated_work_end_time", "superior", "admin", "password", "password_confirmation"]
   end
-  
-  def is_approver?
-    role == 1 || role == 2
+
+  def self.generate_csv(attendances)
+    CSV.generate(headers: true) do |csv|
+      csv << ['日付', '曜日', '出社', '退社', '備考']  
+       attendances.each do |attendance|
+
+        csv << [
+          attendance.worked_on.strftime('%m/%d'),  # 日付を指定のフォーマットに変換
+          attendance.worked_on.strftime('%a'),    # 曜日を取得
+          (attendance.chg_status == '申請中' ? '' : attendance.started_at&.strftime('%H:%M')),  # 出社時間を取得または'申請中'
+          (attendance.chg_status == '申請中' ? '' : attendance.finished_at&.strftime('%H:%M')), # 退社時間を取得または'申請中'
+          attendance.note
+        ]
+      end
+    end
   end
 end

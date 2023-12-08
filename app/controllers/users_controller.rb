@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy, :attendance_log]
   before_action :set_users, only: [:index, :show]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :attendance_log]
   before_action :superior_users, only: [:show]
   before_action :correct_user, only: [:edit, :update]
   before_action :admin_user, only: [:index, :edit, :attendance_list]
@@ -24,10 +24,19 @@ class UsersController < ApplicationController
 
   def show
     @current_user = current_user
-    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
-    @worked_sum = @attendances.where.not(started_at: nil).count
-    @overtime_instructor = @attendances.first.overtime_instructor if @attendances.first
-    @count = Attendance.where(approval_status: ["上長A", "上長B"]).count
+    @superior = User.where(superior: true).where.not(id: @current_user.id)
+    @attendance = @user.attendances.find_by(worked_on: @first_day)
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)   # 該当日の残業申請取得
+    @worked_sum = @attendances.where.not(started_at: nil).count  # 出勤日数
+    @monthly_count = Attendance.where(aprv_confirmed: @user.name, aprv_status: "申請中").count #上長への一ヶ月分の勤怠申請
+    @month_count = Attendance.where(chg_confirmed: @user.name, chg_status: "申請中").count  # 勤怠変更のお知らせ件数
+    @aprv_count = Attendance.where(confirmed_request: @user.name, overwork_status: "申請中").count  # 残業申請のお知らせ件数
+    @overtime_instructor = @attendances.first.overtime_instructor if @attendances.first  
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data User.generate_csv(@attendances), filename: "#{@user.name}_#{Time.zone.now.strftime('%Y年%m月分')}.csv" }
+    end    
   end
 
   def new
@@ -68,6 +77,16 @@ class UsersController < ApplicationController
     @users_with_start_time = User.where.not(start_time: nil)
     # 表示用のデータを作成
     @users_data = @users_with_start_time.pluck(:employee_number, :name)
+  end
+
+  def attendance_log
+    @attendances = @user.attendances.where(chg_status: "承認").order(:worked_on)
+
+    # 年と月のパラメータが送信された場合にのみ検索
+    if params[:year].present? && params[:month].present?
+      year = params[:year].to_i
+      month = params[:month].to_i
+    end
   end
     
   private
