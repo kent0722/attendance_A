@@ -39,7 +39,7 @@
                         <td><%= format_basic_info(@user.designated_work_end_time) %></td>
                         <td>
                           <% formatted_ended_at = format_ended_at(attendance.object) %>
-                          <%= calculate_overtime_hours(formatted_ended_at, @user.designated_work_end_time) %>
+                          <%= calculate_overtime_hours(formatted_ended_at, @user.designated_work_end_time, day.approved) %>
                         </td>
                         <td><%= day.task_description %></td>
                         <td><%= attendance.select :overwork_status, ['なし', '申請中', '承認', '否認'], {}, { class: 'form-control' } %></td>

@@ -10,7 +10,7 @@ module AttendancesHelper
     day.ended_at.strftime('%H:%M')  # ended_atを "20:00" のようなフォーマットに変換
   end
 
-  def calculate_overtime_hours(formatted_ended_at, designated_work_end_time)
+  def calculate_overtime_hours(formatted_ended_at, designated_work_end_time, approved)
     # フォーマットされた終了予定時間を時間と分に分割
     ended_at_hours, ended_at_minutes = formatted_ended_at.split(":").map(&:to_i)
   
@@ -19,6 +19,10 @@ module AttendancesHelper
   
     # 終了予定時間から指定勤務終了時間を引いて、秒数で取得
     overtime_seconds = (ended_at_hours * 3600 + ended_at_minutes * 60) - (designated_work_end_hours * 3600 + designated_work_end_minutes * 60)
+    # :approved が '1' の場合、overtime_seconds に 24 時間分の秒数を足す
+    if approved == true
+      overtime_seconds += 24 * 3600
+    end
     # 秒数を時間に変換して小数点第2位までの表示にフォーマット
     overtime_hours = (overtime_seconds / 3600.0).round(2)
     format("%.2f", overtime_hours)

@@ -11,11 +11,15 @@
   </thead>
   
    <tbody>
-    <% @users_data.each do |user_data| %>
-      <tr>
-        <td><%= user_data[0] %></td>
-        <td><%= user_data[1] %></td>
-      </tr>
+    <% @users.each do |user| %>
+      <% user.attendances.where(worked_on: Date.current).each do |day| %>
+        <% if day.started_at.present? && day.finished_at.blank? %>
+          <tr class="text-center">
+            <td><%= user.employee_number %></td>
+            <td><%= user.name %></td>
+          </tr>
+        <% end %>
+      <% end %>
     <% end %>
   </tbody>
 </table>

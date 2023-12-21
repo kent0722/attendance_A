@@ -42,9 +42,12 @@ class AttendancesController < ApplicationController
         if item[:chg_next_day].present? && item[:chg_confirmed].present?
           unless attendance.chg_status == "申請中"
             flag += 1
+             # 初回の変更のみ保存
+            if attendance.b4_started_at.blank? && attendance.b4_finished_at.blank?
+              attendance.b4_started_at = attendance.started_at
+              attendance.b4_finished_at = attendance.finished_at
+            end
             attendance.chg_status = "申請中"
-            attendance.b4_started_at = attendance.started_at
-            attendance.b4_finished_at = attendance.finished_at
             attendance.update!(item)
           end
         end
@@ -101,26 +104,24 @@ class AttendancesController < ApplicationController
   end
 
   def update_overtime_req
-    success = true # 成功フラグを初期化
     overtime_req_params.each do |id, item|
       attendance = Attendance.find(id)
       if item["ended_at(4i)"].blank? || item["ended_at(5i)"].blank? || item[:confirmed_request].blank? 
-        success = false # 失敗した場合にフラグを設定
+        flag = 1 if item[:approved] == '1'
       else
+        flag = 1
+      end
+      if flag == 1
         attendance.overwork_chk = '0'
         attendance.overwork_status = "申請中"
         overtime_instructor = item["overtime_instructor"]
         attendance.update(item.merge(overtime_instructor: overtime_instructor))
+        flash[:success] = "残業申請情報を送信しました。"
+      else
+        flash[:danger] = "未入力な項目があった為、申請をキャンセルしました。"
       end
     end
-  
-    if success
-      flash[:success] = "残業申請情報を送信しました。"
-      redirect_to user_url
-    else
-      flash[:danger] = "未入力な項目があった為、申請をキャンセルしました。"
-      redirect_to user_url
-    end
+    redirect_to user_url
   end
 
   def edit_overtime_aprv   #上長への残業申請

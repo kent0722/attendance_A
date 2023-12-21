@@ -62,10 +62,10 @@ ActiveRecord::Schema.define(version: 2023_12_05_085943) do
     t.boolean "admin", default: false
     t.boolean "superior", default: false
     t.datetime "start_time"
-    t.datetime "basic_time", default: "2023-12-06 23:00:00"
-    t.datetime "work_time", default: "2023-12-06 23:00:00"
-    t.datetime "designated_work_start_time", default: "2023-12-07 01:00:00"
-    t.datetime "designated_work_end_time", default: "2023-12-07 10:00:00"
+    t.datetime "basic_time", default: "2023-12-11 23:00:00"
+    t.datetime "work_time", default: "2023-12-11 23:00:00"
+    t.datetime "designated_work_start_time", default: "2023-12-12 01:00:00"
+    t.datetime "designated_work_end_time", default: "2023-12-12 10:00:00"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password_digest"

@@ -1,10 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :attendance_log]
-  before_action :set_users, only: [:index, :show]
+  before_action :set_users, only: [:index, :show, :attendance_list]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :attendance_log]
   before_action :superior_users, only: [:show]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: [:index, :edit, :attendance_list]
+  before_action :correct_user, only: [:show, :edit]
+  before_action :admin_user, only: [:index, :attendance_list]
   before_action :set_one_month, only: [:show]
   
   
@@ -57,9 +57,9 @@ class UsersController < ApplicationController
   end
   
   def update
-    if @user.update_attributes(user_params)
+    if @user.update(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
-      redirect_to users_url
+      redirect_to users_url 
     else
       flash[:danger] = "ユーザー情報を更新できませんでした。"
       redirect_to users_url   
@@ -73,21 +73,21 @@ class UsersController < ApplicationController
   end
   
   def attendance_list
-    # 本日の出社時間が保存されているユーザーを取得
-    @users_with_start_time = User.where.not(start_time: nil)
-    # 表示用のデータを作成
-    @users_data = @users_with_start_time.pluck(:employee_number, :name)
   end
 
   def attendance_log
     @attendances = @user.attendances.where(chg_status: "承認").order(:worked_on)
-
+  
     # 年と月のパラメータが送信された場合にのみ検索
     if params[:year].present? && params[:month].present?
       year = params[:year].to_i
       month = params[:month].to_i
+  
+      # 選択された年と月を使用してレコードをフィルタリング
+      @attendances = @attendances.where("strftime('%Y', worked_on) = ? AND strftime('%m', worked_on) = ?", year.to_s, month.to_s)
     end
   end
+  
     
   private
   

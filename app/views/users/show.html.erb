@@ -144,7 +144,8 @@
         <td>
           <% if day.ended_at.present? %>
             <% formatted_ended_at = format_ended_at(day) %>
-            <%= calculate_overtime_hours(formatted_ended_at, @user.designated_work_end_time) %>
+            <%= calculate_overtime_hours(formatted_ended_at, @user.designated_work_end_time, day.approved) %>
+
           <% end %>
         </td>
         <td><%= day.task_description %></td>
