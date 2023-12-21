@@ -78,13 +78,9 @@ class UsersController < ApplicationController
   def attendance_log
     @attendances = @user.attendances.where(chg_status: "承認").order(:worked_on)
   
-    # 年と月のパラメータが送信された場合にのみ検索
-    if params[:year].present? && params[:month].present?
-      year = params[:year].to_i
-      month = params[:month].to_i
-  
-      # 選択された年と月を使用してレコードをフィルタリング
-      @attendances = @attendances.where("strftime('%Y', worked_on) = ? AND strftime('%m', worked_on) = ?", year.to_s, month.to_s)
+    if params["select_year(1i)"].present? && params["select_month(2i)"].present?
+      @first_day = (params["select_year(1i)"] + "-" + params["select_month(2i)"] + "-01").to_date
+      @attendances = @user.attendances.where(worked_on: @first_day..@first_day.end_of_month, chg_status: "承認").order(:worked_on)
     end
   end
   
